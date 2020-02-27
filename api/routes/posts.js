@@ -1,11 +1,10 @@
 import express from 'express';
+import * as PostsController from '../controllers/posts';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Handling GET requests to /posts',
-  });
-});
+router.get('/', PostsController.getPosts);
+
+router.post('/', PostsController.createPost);
 
 export default router;

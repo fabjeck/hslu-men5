@@ -1,25 +1,14 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import http from 'http';
-import mysql from 'mysql';
-
+import connectDB from './db-connector';
 import postRoutes from './api/routes/posts';
 
-const rds = mysql.createConnection({
-  host: process.env.RDS_HOST,
-  user: process.env.RDS_USER,
-  password: process.env.RDS_PASSWORD,
-  port: process.env.RDS_PORT,
+connectDB.then((pool) => {
+  return pool.query('SHOW DATABASES');
+}).then((res) => {
+  console.log(res);
 });
-
-rds.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Connected!');
-  rds.end();
-});
-
 
 const port = process.env.PORT || 3000;
 
