@@ -1,7 +1,6 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import http from 'http';
-import connectDB from './db-connector';
+import connectDB from './db/db-connector';
 import postRoutes from './api/routes/posts';
 
 connectDB.then((pool) => {
@@ -16,18 +15,20 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 // Use Body Parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+express.urlencoded({ extended: false });
+express.json();
 
 // Define headers
 app.use((req, res, next) => {
   // Define allowed request origins
   res.header('Access-Control-Allow-Origin', '*');
-  // Define allowed request types
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   // Define allowed request headers
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  // Define allowed request methods
+  // Browser always checks allowed methods by sending OPTIONS request prior to executing method
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    // Return empty response, to avoid request continuing to routes
     return res.status(200).json({});
   }
   return next();
