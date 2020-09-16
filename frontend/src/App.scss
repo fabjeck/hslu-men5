@@ -1,0 +1,41 @@
+@import './styles/variables';
+
+$h-spacing: 40px;
+$v-spacing: 20px;
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  width: 100%;
+  padding: $v-spacing $h-spacing 0 $h-spacing;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  .logo {
+    font-family: $heading;
+    font-weight: $extraBold;
+    color: $primary;
+    font-size: 2rem;
+    margin-left: calc(-#{$h-spacing} / 2);
+  }
+
+  .auth {
+    color: $secondary;
+    font-weight: $light;
+  }
+}
+
+main {
+  margin: $v-spacing $h-spacing;
+  flex: 1 1 auto;
+}
+
+footer {
+  padding: $v-spacing $h-spacing;
+  font-size: $small;
+}

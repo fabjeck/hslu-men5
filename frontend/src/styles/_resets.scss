@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: $text;
+  color: $black;
+  font-size: $regular;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
