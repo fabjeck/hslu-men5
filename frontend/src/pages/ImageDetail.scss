@@ -1,0 +1,14 @@
+@import '../styles/variables';
+
+.image-detail__wrapper {
+  background-color: $white;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+
+  .image__wrapper {
+    width: 100%;
+    padding-top: calc(100% / 3 * 2);
+    border-radius: $border-radius;
+  }
+}

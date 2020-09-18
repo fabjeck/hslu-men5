@@ -1,0 +1,16 @@
+.modal__overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.no-scroll {
+  height: 100vh;
+  overflow: hidden;
+}

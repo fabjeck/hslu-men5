@@ -1,7 +1,7 @@
 @import './styles/variables';
 
 $h-spacing: 40px;
-$v-spacing: 20px;
+;
 
 .App {
   min-height: 100vh;
@@ -11,10 +11,11 @@ $v-spacing: 20px;
 
 header {
   width: 100%;
-  padding: $v-spacing $h-spacing 0 $h-spacing;
+  padding: 20px $h-spacing 0 $h-spacing;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  margin-bottom: 30px;
 
   .logo {
     font-family: $heading;
@@ -24,18 +25,18 @@ header {
     margin-left: calc(-#{$h-spacing} / 2);
   }
 
-  .auth {
+  .auth-info__container {
     color: $secondary;
     font-weight: $light;
   }
 }
 
 main {
-  margin: $v-spacing $h-spacing;
-  flex: 1 1 auto;
+  padding: 0 $h-spacing;
 }
 
 footer {
-  padding: $v-spacing $h-spacing;
+  padding: 15px $h-spacing;
   font-size: $small;
+  margin-top: 20px;
 }

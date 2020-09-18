@@ -1,0 +1,17 @@
+$profil-diameter: 150px;
+
+.publisher__wrapper {
+  justify-content: center;
+
+  .publisher__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .profil-image__wrapper {
+      width: $profil-diameter;
+      height: $profil-diameter;
+      border-radius: 100%;
+    }
+  }
+}

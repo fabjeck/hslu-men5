@@ -1,5 +1,8 @@
 * {
   box-sizing: border-box;
+}
+
+html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -9,9 +12,51 @@ body {
   font-family: $text;
   color: $black;
   font-size: $regular;
+  font-weight: $light;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+h1 {
+  font-family: $heading;
+  font-weight: $extraBold;
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-family: $heading;
+  font-weight: $medium;
+  font-size: 1.3rem;
+}
+
+input {
+  font-family: inherit;
+  padding: 5px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid $black;
+  font-size: $regular;
+  width: 100%;
+  border-radius: 20px;
+}
+
+label {
+  font-weight: $semiBold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+::placeholder {
+  color: $secondary;
 }

@@ -1,0 +1,30 @@
+@import '../styles/variables';
+
+$search-spacing: 15px;
+
+.searchbar__container {
+  position: relative;
+  margin-bottom: 20px;
+
+  .searchbar {
+    padding-left: $search-spacing;
+    padding-right: $search-spacing;
+    height: 40px;
+  }
+
+  .search-results__box {
+    width: 100%;
+    background-color: $white;
+    border: 1px solid $black;
+    border-radius: 5px;
+    z-index: 10;
+    margin: 5px 0 0 0;
+    padding: 0;
+    position: absolute;
+    display: none;
+
+    li {
+      padding: 10px $search-spacing;
+    }
+  }
+}

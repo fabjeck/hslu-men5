@@ -1,0 +1,22 @@
+@import '../styles/variables';
+
+$grid-gap: 30px;
+
+.grid__container {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: $grid-gap;
+  column-gap: $grid-gap;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
