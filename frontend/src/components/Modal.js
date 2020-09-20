@@ -2,6 +2,17 @@ import React from 'react';
 import './Modal.scss';
 
 export default class Modal extends React.Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    const isBackground = event.target.classList.contains('modal__overlay');
+    const history = this.props.children.props.history;
+    isBackground ? history.goBack() : event.preventDefault();
+  }
+
   componentDidMount() {
     document.body.classList.add('no-scroll');
   }
@@ -12,8 +23,8 @@ export default class Modal extends React.Component {
 
   render() {
     return (
-      <div className="modal__overlay">
-        {this.props.component}
+      <div className="modal__overlay" onClick={this.handleClick}>
+        {this.props.children}
       </div>
     )
   }

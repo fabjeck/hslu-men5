@@ -1,3 +1,5 @@
+@import '../styles/variables';
+
 .modal__overlay {
   position: fixed;
   left: 0;
@@ -7,7 +9,22 @@
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
+
+  @media screen and (min-width: 1280px) {
+    padding-top: 80px;
+    padding-bottom: 150px;
+  }
+
+  > article {
+    background-color: $white;
+    min-height: 100%;
+    overflow: hidden;
+
+    @media screen and (min-width: 1280px) {
+      border-radius: $border-radius;
+    }
+  }
 }
 
 .no-scroll {

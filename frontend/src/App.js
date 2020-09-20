@@ -16,8 +16,20 @@ import Publisher from './pages/Publisher';
 
 import Modal from './components/Modal';
 
+function ModalRoute({ component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={routeProps => (
+        <Modal>
+          <Component {...routeProps} />
+        </Modal>
+      )}
+    />
+  );
+}
+
 function Routes() {
-  console.log();
   const location = useLocation();
   const background = location.state?.background;
 
@@ -31,7 +43,7 @@ function Routes() {
         <Route path="/:publisher" component={Publisher} />
         <Route path="*" component={NoMatch} />
       </Switch>
-  {background && <Route path="/images/:image" children={<Modal component={<ImageDetail/>} />} />}
+      {background && <ModalRoute path="/images/:image" component={ImageDetail} />}
     </React.Fragment>
   )
 }
