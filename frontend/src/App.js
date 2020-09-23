@@ -52,12 +52,19 @@ export default function App() {
   return (
     <div className="App">
       <header>
-        <Link className="logo" to="/">Gallery</Link>
-        <div className="auth-info__container">
-          <Link to="/login">Login</Link>
+        <div className="logo__wrapper">
+          <Link className="logo" to="/">Gallery</Link>
         </div>
+        <ul className="nav__container">
+          <li>
+            <Link to="/login">Sign in</Link>
+          </li>
+          <li>
+            <Link to="/signup">Sign up</Link>
+          </li>
+        </ul>
       </header>
-      <main className="flex-stretch">
+      <main>
         <Routes />
       </main>
       <footer>

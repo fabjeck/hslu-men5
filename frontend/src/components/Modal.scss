@@ -9,20 +9,36 @@
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (min-width: 1280px) {
-    padding-top: 80px;
-    padding-bottom: 150px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
   }
 
-  > article {
+  .modal__close {
+    font-size: 3rem;
+    color: $secondary;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    @media screen and (min-width: 1280px) {
+      font-size: 3.5rem;
+    }
+  }
+
+  .modal__box {
     background-color: $white;
     min-height: 100%;
     overflow: hidden;
+    border-radius: $border-radius;
 
     @media screen and (min-width: 1280px) {
-      border-radius: $border-radius;
+      min-height: auto;
     }
   }
 }

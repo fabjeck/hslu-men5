@@ -6,23 +6,24 @@ $text: 'Open Sans', sans-serif;
 /*** Colors ***/
 
 $primary: #B18E5E;
-$secondary: #AFAFAF;
+$secondary: #999999;
 $black: #222;
 $white: #fff;
 
 /*** Font-Weights ***/
 
-$light: 300;
-$medium: 500;
-$semiBold: 600;
-$extraBold: 800;
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semiBold: 600;
+$weight-extraBold: 800;
 
 /*** Font-Sizes ***/
 
-$small: 0.6rem;
-$regular: 0.8rem;
-$large: 1.2rem;
+$size-small: 0.6rem;
+$size-regular: 0.8rem;
+$size-medium: 0.9rem;
 
 /*** Element Styles ***/
 
-$border-radius: 10px;
+$border-radius: 5px;
+$h-spacing: 40px;

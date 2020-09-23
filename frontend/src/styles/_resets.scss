@@ -11,8 +11,8 @@ body {
   margin: 0;
   font-family: $text;
   color: $black;
-  font-size: $regular;
-  font-weight: $light;
+  font-size: $size-regular;
+  font-weight: $weight-regular;
 }
 
 a {
@@ -30,33 +30,29 @@ li {
 
 h1 {
   font-family: $heading;
-  font-weight: $extraBold;
+  font-weight: $weight-extraBold;
   font-size: 1.6rem;
 }
 
 h2 {
   font-family: $heading;
-  font-weight: $medium;
+  font-weight: $weight-medium;
   font-size: 1.3rem;
+}
+
+h3 {
+  font-family: $heading;
+  font-weight: $weight-medium;
+  font-size: 1.2rem;
 }
 
 input {
   font-family: inherit;
-  padding: 5px;
+  font-size: inherit;
   outline: none;
-  border-radius: 5px;
-  border: 1px solid $black;
-  font-size: $regular;
-  width: 100%;
-  border-radius: 20px;
-}
-
-label {
-  font-weight: $semiBold;
-  display: block;
-  margin-bottom: 5px;
+  padding: 0;
 }
 
 ::placeholder {
-  color: $secondary;
+  color: inherit;
 }

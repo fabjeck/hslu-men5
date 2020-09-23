@@ -1,0 +1,18 @@
+@import '../styles/variables';
+
+.likes__container {
+  color: $secondary;
+  font-size: $size-regular;
+  display: flex;
+  align-items: center;
+
+  .icon__wrapper {
+    margin-right: 2px;
+    cursor: pointer;
+    font-size: $size-medium;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}

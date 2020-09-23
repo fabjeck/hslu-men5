@@ -1,8 +1,5 @@
 @import './styles/variables';
 
-$h-spacing: 40px;
-;
-
 .App {
   min-height: 100vh;
   display: flex;
@@ -17,26 +14,49 @@ header {
   align-items: baseline;
   margin-bottom: 30px;
 
-  .logo {
-    font-family: $heading;
-    font-weight: $extraBold;
-    color: $primary;
-    font-size: 2rem;
-    margin-left: calc(-#{$h-spacing} / 2);
+  .logo__wrapper {
+    flex: 0 0 auto;
+
+    .logo {
+      font-family: $heading;
+      font-weight: $weight-extraBold;
+      color: $primary;
+      font-size: 2rem;
+
+      @media screen and (min-width: 768px) {
+        font-size: 2.5rem;
+      }
+    }
   }
 
-  .auth-info__container {
+  ul.nav__container {
     color: $secondary;
-    font-weight: $light;
+    font-size: $size-medium;
+    margin: 0;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: flex-end;
+
+    li {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 10px 0;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:hover {
+        color: darken($secondary, 20%)
+      }
+    }
   }
 }
 
 main {
-  padding: 0 $h-spacing;
+  flex: 1 1 auto;
 }
 
 footer {
   padding: 15px $h-spacing;
-  font-size: $small;
+  font-size: $size-small;
   margin-top: 20px;
 }

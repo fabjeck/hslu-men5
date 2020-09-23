@@ -1,16 +1,22 @@
 import React from 'react';
 import './Modal.scss';
+import { IoIosClose } from "react-icons/io";
 
 export default class Modal extends React.Component {
   constructor() {
     super();
-    this.handleClick = this.handleClick.bind(this);
+    this.evaluateTarget = this.evaluateTarget.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
-  handleClick(event) {
+  evaluateTarget(event) {
     const isBackground = event.target.classList.contains('modal__overlay');
+    isBackground ? this.closeModal() : event.preventDefault();
+  }
+
+  closeModal() {
     const history = this.props.children.props.history;
-    isBackground ? history.goBack() : event.preventDefault();
+    history.goBack();
   }
 
   componentDidMount() {
@@ -23,8 +29,13 @@ export default class Modal extends React.Component {
 
   render() {
     return (
-      <div className="modal__overlay" onClick={this.handleClick}>
-        {this.props.children}
+      <div className="modal__overlay" onClick={this.evaluateTarget}>
+        <span className="modal__close" onClick={this.closeModal}>
+          <IoIosClose />
+        </span>
+        <div className="modal__box">
+          {this.props.children}
+        </div>
       </div>
     )
   }

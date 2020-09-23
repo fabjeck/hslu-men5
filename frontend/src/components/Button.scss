@@ -1,0 +1,9 @@
+@import '../styles/variables';
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  font-size: $size-medium;
+  outline: none;
+  cursor: pointer;
+}

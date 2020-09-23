@@ -1,8 +1,4 @@
-.flex-stretch {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-}
+@import './variables';
 
 .image__frame {
   position: relative;
@@ -18,12 +14,11 @@
   }
 }
 
-.modal {
+.modal__box {
   width: 100%;
-  padding: 30px;
+  margin: 0 auto;
 
   @media screen and (min-width: 1280px) {
     max-width: 960px;
-    margin: 0 auto;
   }
 }

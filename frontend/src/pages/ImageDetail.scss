@@ -1,9 +1,51 @@
 @import '../styles/variables';
 
+$profil-diameter: 50px;
+
 .image-detail__wrapper {
+  .detail__container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: $h-spacing;
+
+    .profil__wrapper {
+      width: $profil-diameter;
+      height: $profil-diameter;
+      position: relative;
+      border-radius: 100%;
+
+      .image__link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 100%;
+      }
+    }
+
+    .text__wrapper {
+      margin-left: 10px;
+
+      h3 {
+        margin: 0 0 5px 0;
+      }
+
+      span {
+        color: $secondary;
+      }
+
+      .autor__link {
+        margin: 0;
+        color: $primary;
+        font-weight: $weight-semiBold;
+      }
+    }
+  }
+
   .image__wrapper {
     width: 100%;
     padding-top: calc(100% / 3 * 2);
-    border-radius: $border-radius;
   }
 }
