@@ -1,0 +1,36 @@
+@import '../styles/variables';
+
+.auth__container {
+  padding: $h-spacing;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  form {
+    label {
+      display: block;
+      font-weight: $weight-semiBold;
+      margin-bottom: 2px;
+    }
+    input {
+      padding: 5px;
+      width: 100%;
+      border-radius: $border-radius;
+      border: none;
+      background-color: #eeeeee;
+    }
+
+    .form__element {
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .redirect__link {
+      font-weight: $weight-semiBold;
+      color: $primary;
+    }
+  }
+}

@@ -9,7 +9,8 @@ import {
 import './App.scss';
 
 import Home from './pages/Home';
-import Login from './pages/Login';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import NoMatch from './pages/NoMatch';
 import ImageDetail from './pages/ImageDetail';
 import Publisher from './pages/Publisher';
@@ -37,7 +38,8 @@ function Routes() {
     <React.Fragment>
       <Switch location={background || location}>
         <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
+        <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
         <Route path="/images/:image" component={ImageDetail} />
         <Redirect from="/images" to="/" />
         <Route path="/:publisher" component={Publisher} />
@@ -57,7 +59,7 @@ export default function App() {
         </div>
         <ul className="nav__container">
           <li>
-            <Link to="/login">Sign in</Link>
+            <Link to="/signin">Sign In</Link>
           </li>
           <li>
             <Link to="/signup">Sign up</Link>
