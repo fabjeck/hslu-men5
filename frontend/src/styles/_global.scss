@@ -22,3 +22,34 @@
     max-width: 960px;
   }
 }
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: $size-medium;
+  outline: none;
+  cursor: pointer;
+  border-radius: $border-radius;
+  font-weight: $weight-semiBold;
+
+  &.button__action {
+    background-color: $primary;
+    border: 1px solid darken($primary, 5%);
+    color: $white;
+
+    &:hover {
+      background-color: darken($primary, 5%);
+    }
+  }
+
+  &.button__passive {
+    background-color: #f9f9f9;
+    border: 1px solid darken(#f9f9f9, 5%);
+    color: $black;
+
+    &:hover {
+      background-color: darken(#f9f9f9, 5%);
+    }
+  }
+}

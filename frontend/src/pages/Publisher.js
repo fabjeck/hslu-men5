@@ -1,7 +1,7 @@
 import React from 'react';
 import './Publisher.scss';
+import { IoMdMail } from "react-icons/io";
 
-import Button from '../components/Button';
 import Grid from '../components/Grid';
 
 export default function Publisher() {
@@ -13,7 +13,9 @@ export default function Publisher() {
         </div>
         <div className="info__container">
           <h1>Max Muster</h1>
-          <Button />
+          <a className="button button__action button__contact" href="mailto:name@email.com">
+            <span><IoMdMail /></span>Contact
+          </a>
         </div>
       </div>
       <h2>This artists' work</h2>

@@ -26,6 +26,12 @@ $profil-diameter: 120px;
       h1 {
         margin: 10px 0 20px 0;
       }
+
+      .button__contact span {
+        vertical-align: middle;
+        margin-right: 5px;
+        font-size: $size-medium;
+      }
     }
   }
 }

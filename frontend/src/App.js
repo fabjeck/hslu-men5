@@ -38,8 +38,6 @@ function Routes() {
     <React.Fragment>
       <Switch location={background || location}>
         <Route exact path="/" component={Home} />
-        <Route exact path="/signin" component={SignIn} />
-        <Route exact path="/signup" component={SignUp} />
         <Route path="/images/:image" component={ImageDetail} />
         <Redirect from="/images" to="/" />
         <Route path="/:publisher" component={Publisher} />
