@@ -50,9 +50,9 @@ function Routes() {
   )
 }
 
-export default function App() {
+function Skeleton() {
   return (
-    <div className="App">
+    <React.Fragment>
       <header>
         <div className="logo__wrapper">
           <Link className="logo" to="/">Gallery</Link>
@@ -72,6 +72,24 @@ export default function App() {
       <footer>
         <strong>Fabien Jeckelmann</strong> | BSc in Digital Ideation | Hochschule Luzern
       </footer>
+    </React.Fragment>
+  )
+}
+
+function FullscreenRoutes() {
+  return (
+    <Switch>
+      <Route exact path="/signin" component={SignIn} />
+      <Route exact path="/signup" component={SignUp} />
+      <Route component={Skeleton} />
+    </Switch>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <FullscreenRoutes />
     </div>
   );
 }
