@@ -1,0 +1,38 @@
+@import '../styles/variables';
+
+$arrow-width: 5px;
+$darken: darken($alert, 30%);
+
+.error__wrapper {
+  padding: 10px;
+  background-color: $alert;
+  border: 1px solid $darken;
+  margin-top: $arrow-width;
+  border-radius: $border-radius;
+  color: $darken;
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: $arrow-width solid transparent;
+    border-right: $arrow-width solid transparent;
+    border-bottom: $arrow-width solid $darken;
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: $arrow-width solid transparent;
+    border-right: $arrow-width solid transparent;
+    border-bottom: $arrow-width solid $alert;
+  }
+}

@@ -28,16 +28,19 @@
         margin-bottom: 5px;
       }
 
-      input[type=text] {
+      input:not([type=submit]) {
         padding: 10px;
         width: 100%;
         border-radius: $border-radius;
         border: 1px solid transparent;
         background-color: #eeeeee;
         color: $secondary;
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
           box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.3);
         }
+
         &:focus {
           border: 1px solid $primary;
         }
@@ -51,6 +54,10 @@
     .redirect__link {
       font-weight: $weight-semiBold;
       color: $primary;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
