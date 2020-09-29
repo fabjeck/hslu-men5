@@ -1,22 +1,12 @@
 import express from 'express';
-import http from 'http';
-import connectDB from './db/db-connector';
-import postRoutes from './api/routes/posts';
-
-connectDB.then((pool) => {
-  return pool.query('SHOW DATABASES');
-}).then((res) => {
-  console.log(res);
-});
-
-const port = process.env.PORT || 3000;
+import userRoutes from './api/routes/user';
 
 // Create Express application
 const app = express();
 
 // Use Body Parser
-express.urlencoded({ extended: false });
-express.json();
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Define headers
 app.use((req, res, next) => {
@@ -35,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // Routes which handle incoming requests.
-app.use('/posts', postRoutes);
+app.use('/users', userRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {
@@ -56,6 +46,4 @@ app.use((error, req, res, next) => {
   next();
 });
 
-const server = http.createServer(app);
-
-server.listen(port);
+export default app;

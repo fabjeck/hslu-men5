@@ -4,6 +4,8 @@
     "RDS_USER": "admin",
     "RDS_PASSWORD": "tHa3i9obr8PipUph",
     "RDS_PORT": "3306",
-    "RDS_DB": "gallery_react_rest"
+    "RDS_DB": "gallery_react_rest",
+
+    "JWT_SECRET": "secret"
   }
 }

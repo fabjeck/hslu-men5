@@ -1,15 +1,38 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import validator from 'validator';
 import './Auth.scss';
 
 import Error from '../components/Error';
 
-import { validateUsername, validateMail, validatePassword } from '../helpers/formValidation';
+function validateUsername(value) {
+  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+    return 'Username is required.';
+  }
+  if (!value.split(' ').every((word) => validator.isAlpha(word, 'de-DE'))) {
+    return 'Username must only contain letters.';
+  }
+  return null;
+}
 
-const validate = {
-  username: value => validateUsername(value),
-  mail: value => validateMail(value),
-  password: value => validatePassword(value)
+function validateMail(value) {
+  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+    return 'Mail is required.';
+  }
+  if (!validator.isEmail(value)) {
+    return 'Invalid mail format.';
+  }
+  return null;
+}
+
+function validatePassword(value) {
+  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+    return 'Password is required.';
+  }
+  if (!validator.isLength(value, { min: 8 })) {
+    return 'Password must contain at least 8 characters.';
+  }
+  return null;
 }
 
 export default function SignUp() {
@@ -22,7 +45,13 @@ export default function SignUp() {
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
+  const validate = {
+    username: value => validateUsername(value),
+    mail: value => validateMail(value),
+    password: value => validatePassword(value)
+  }
+
+  function handleChange(event) {
     const { name, value } = event.target;
 
     const { [name]: changedValue, ...rest } = values;
@@ -33,7 +62,7 @@ export default function SignUp() {
     });
   }
 
-  const handleBlur = (event) => {
+  function handleBlur(event) {
     const { name, value } = event.target;
 
     const { [name]: removedError, ...rest } = errors;
@@ -46,7 +75,7 @@ export default function SignUp() {
     });
   }
 
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
 
     const errors = Object.keys(values).reduce(
@@ -62,7 +91,7 @@ export default function SignUp() {
 
     setErrors(errors);
 
-    if(!Object.values(errors).length) {
+    if (!Object.values(errors).length) {
       console.log('Go!');
     }
   };
@@ -70,7 +99,7 @@ export default function SignUp() {
   return (
     <div className="auth__container">
       <h1>Sign up</h1>
-      <form onSubmit={handleSubmit} autoComplete="on">
+      <form onSubmit={handleSubmit} autoComplete="on" noValidate>
         <fieldset>
           <label>Username</label>
           <input type="text" name="username" value={values.username} onChange={handleChange} onBlur={handleBlur} autoComplete="username" />
