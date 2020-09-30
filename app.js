@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // Routes which handle incoming requests.
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {

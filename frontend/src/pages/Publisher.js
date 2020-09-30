@@ -13,7 +13,7 @@ export default function Publisher() {
         </div>
         <div className="info__container">
           <h1>Max Muster</h1>
-          <a className="button button__action button__contact" href="mailto:name@email.com">
+          <a className="button button__passive button__contact" href="mailto:name@email.com">
             <span><IoMdMail /></span>Contact
           </a>
         </div>

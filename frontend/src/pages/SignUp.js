@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
-import './Auth.scss';
+import axios from 'axios';
 
+import FormValidation from '../components/FormValidation';
 import Error from '../components/Error';
 
 function validateUsername(value) {
@@ -35,67 +36,19 @@ function validatePassword(value) {
   return null;
 }
 
-export default function SignUp() {
+const initialValues = {
+  username: '',
+  mail: '',
+  password: ''
+};
 
-  const [values, setValues] = useState({
-    username: '',
-    mail: '',
-    password: ''
-  });
+const validate = {
+  username: value => validateUsername(value),
+  mail: value => validateMail(value),
+  password: value => validatePassword(value)
+}
 
-  const [errors, setErrors] = useState({});
-
-  const validate = {
-    username: value => validateUsername(value),
-    mail: value => validateMail(value),
-    password: value => validatePassword(value)
-  }
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    const { [name]: changedValue, ...rest } = values;
-
-    setValues({
-      ...rest,
-      [name]: value
-    });
-  }
-
-  function handleBlur(event) {
-    const { name, value } = event.target;
-
-    const { [name]: removedError, ...rest } = errors;
-
-    const error = validate[name](value);
-
-    setErrors({
-      ...rest,
-      ...(error && { [name]: error })
-    });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const errors = Object.keys(values).reduce(
-      (acc, key) => {
-        const newError = validate[key](values[key]);
-        return {
-          ...acc,
-          ...(newError && { [key]: newError })
-        };
-      },
-      {}
-    )
-
-    setErrors(errors);
-
-    if (!Object.values(errors).length) {
-      console.log('Go!');
-    }
-  };
-
+function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverError }) {
   return (
     <div className="auth__container">
       <h1>Sign up</h1>
@@ -103,7 +56,7 @@ export default function SignUp() {
         <fieldset>
           <label>Username</label>
           <input type="text" name="username" value={values.username} onChange={handleChange} onBlur={handleBlur} autoComplete="username" />
-          {errors.username && <Error text={errors.username} />}
+          {(errors.username || serverError.username) && <Error text={errors.username || serverError.username} />}
         </fieldset>
         <fieldset>
           <label>Mail</label>
@@ -121,5 +74,34 @@ export default function SignUp() {
         <p>Already registered? <Link className="redirect__link" to="/signin">Sign in</Link></p>
       </form>
     </div>
+  )
+
+};
+
+export default function SignUp() {
+
+  const history = useHistory();
+
+  async function createUser({ username, mail, password }) {
+    await axios.post(
+      'http://localhost:8080/user',
+      JSON.stringify({
+        username,
+        mail,
+        password
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+    history.push('/');
+  };
+
+  return (
+    <FormValidation initialValues={initialValues} validate={validate} submit={createUser}>
+      <Form />
+    </FormValidation>
   )
 }

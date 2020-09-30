@@ -60,7 +60,7 @@ function Skeleton() {
             <Link to="/signin">Sign In</Link>
           </li>
           <li>
-            <Link to="/signup">Sign up</Link>
+            <Link to="/signup" className="button button__action">Sign up</Link>
           </li>
         </ul>
       </header>
