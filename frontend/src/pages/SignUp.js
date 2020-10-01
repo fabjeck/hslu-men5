@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
 import axios from 'axios';
 
-import FormValidation from '../components/FormValidation';
+import useForm from '../helpers/useForm';
 import Error from '../components/Error';
 
 function validateUsername(value) {
@@ -48,7 +48,50 @@ const validate = {
   password: value => validatePassword(value)
 }
 
-function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverError }) {
+export default function SignUp() {
+
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit
+  } = useForm({
+    initialValues,
+    validate,
+    onSubmit
+  });
+
+  const [userExists, setUserExists] = useState('');
+
+  const history = useHistory();
+
+  async function onSubmit() {
+    const { username, mail, password } = values;
+    try {
+      await axios.post(
+        'http://localhost:8080/user',
+        JSON.stringify({
+          username,
+          mail,
+          password
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      history.push('/');
+    } catch (error) {
+      if (error.response?.status === 409) {
+        return setUserExists(error.response.data.message);
+      }
+      return error;
+    }
+  };
+
   return (
     <div className="auth__container">
       <h1>Sign up</h1>
@@ -56,17 +99,18 @@ function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverEr
         <fieldset>
           <label>Username</label>
           <input type="text" name="username" value={values.username} onChange={handleChange} onBlur={handleBlur} autoComplete="username" />
-          {(errors.username || serverError.username) && <Error text={errors.username || serverError.username} />}
+          {(touched.username && errors.username) && <Error text={errors.username} />}
+          {userExists && <Error text={userExists} />}
         </fieldset>
         <fieldset>
           <label>Mail</label>
           <input type="email" name="mail" value={values.mail} onChange={handleChange} onBlur={handleBlur} autoComplete="email" />
-          {errors.mail && <Error text={errors.mail} />}
+          {(touched.mail && errors.mail) && <Error text={errors.mail} />}
         </fieldset>
         <fieldset>
           <label>Password</label>
           <input type="password" name="password" value={values.password} onChange={handleChange} onBlur={handleBlur} autoComplete="new-password" />
-          {errors.password && <Error text={errors.password} />}
+          {(touched.password && errors.password) && <Error text={errors.password} />}
         </fieldset>
         <fieldset>
           <input className="button button__action form__button" type="submit" value="Sign Up" />
@@ -74,34 +118,5 @@ function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverEr
         <p>Already registered? <Link className="redirect__link" to="/signin">Sign in</Link></p>
       </form>
     </div>
-  )
-
-};
-
-export default function SignUp() {
-
-  const history = useHistory();
-
-  async function createUser({ username, mail, password }) {
-    await axios.post(
-      'http://localhost:8080/user',
-      JSON.stringify({
-        username,
-        mail,
-        password
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
-    history.push('/');
-  };
-
-  return (
-    <FormValidation initialValues={initialValues} validate={validate} submit={createUser}>
-      <Form />
-    </FormValidation>
   )
 }

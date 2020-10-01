@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
 import axios from 'axios';
+import './SignIn.scss';
 
-import Auth from '../components/FormValidation';
+import useForm from '../helpers/useForm';
 import Error from '../components/Error';
 
 function validateUsername(value) {
@@ -30,21 +31,69 @@ const validate = {
   password: value => validatePassword(value)
 }
 
-function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverError }) {
+export default function SignIn() {
+
+  const [authFailed, setAuthFailed] = useState(false);
+
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit
+  } = useForm({
+    initialValues,
+    validate,
+    onSubmit
+  });
+
+  const history = useHistory();
+
+  function authErrorAnimation() {
+    setAuthFailed(true);
+    const timer = setTimeout(() => {
+      setAuthFailed(false);
+    }, 500);
+  };
+
+  async function onSubmit() {
+    const { username, password } = values;
+    try {
+      await axios.post(
+        'http://localhost:8080/user/signin',
+        JSON.stringify({
+          username,
+          password
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      history.push('/');
+    } catch (error) {
+      if (error.response?.status === 401) {
+        authErrorAnimation();
+      }
+      return error;
+    }
+  }
 
   return (
-    <div className={`auth__container ${serverError.auth ? 'shake' : ''}`}>
+    <div className={`auth__container ${authFailed ? 'shake' : ''}`}>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit} autoComplete="on" noValidate>
         <fieldset>
           <label>Username</label>
           <input type="text" name="username" value={values.username} onChange={handleChange} onBlur={handleBlur} autoComplete="username" />
-          {errors.username && <Error text={errors.username} />}
+          {(touched.username && errors.username) && <Error text={errors.username} />}
         </fieldset>
         <fieldset>
           <label>Password</label>
           <input type="password" name="password" value={values.password} onChange={handleChange} onBlur={handleBlur} autoComplete="current-password" />
-          {errors.password && <Error text={errors.password} />}
+          {(touched.password && errors.password) && <Error text={errors.password} />}
         </fieldset>
         <fieldset>
           <input className="button button__action form__button" type="submit" value="Sign In" />
@@ -52,32 +101,5 @@ function Form({ handleChange, handleBlur, handleSubmit, values, errors, serverEr
         <p>No account yet? <Link className="redirect__link" to="/signup">Sign up</Link></p>
       </form>
     </div>
-  )
-}
-
-export default function SignIn() {
-
-  const history = useHistory();
-
-  async function login({ username, password }) {
-    await axios.post(
-      'http://localhost:8080/user/signin',
-      JSON.stringify({
-        username,
-        password
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-    );
-    history.push('/');
-  }
-
-  return (
-    <Auth initialValues={initialValues} validate={validate} submit={login}>
-      <Form />
-    </Auth>
   )
 }

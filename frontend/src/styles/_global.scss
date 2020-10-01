@@ -53,3 +53,66 @@
     }
   }
 }
+
+.auth__container {
+  padding: $h-spacing;
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+form {
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    margin-bottom: 20px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: $weight-semiBold;
+      font-size: $size-medium;
+      margin-bottom: 5px;
+    }
+
+    input:not([type=submit]) {
+      padding: 10px;
+      width: 100%;
+      border-radius: $border-radius;
+      border: 1px solid transparent;
+      background-color: #eeeeee;
+      color: $secondary;
+
+      &:hover,
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.3);
+      }
+
+      &:focus {
+        border: 1px solid $primary;
+      }
+    }
+
+    .form__button {
+      width: 100%;
+      padding: 10px 20px;
+    }
+  }
+
+  .redirect__link {
+    font-weight: $weight-semiBold;
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
