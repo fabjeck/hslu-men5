@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 
-const generateToken = ({ userID, username }) => jwt.sign(
+const generateToken = ({ userID, username, image }) => jwt.sign(
   {
     userID,
     username,
+    image,
   },
   process.env.JWT_SECRET,
   {
@@ -12,10 +13,11 @@ const generateToken = ({ userID, username }) => jwt.sign(
   },
 );
 
-const generateRefreshToken = ({ userID, username }) => jwt.sign(
+const generateRefreshToken = ({ userID, username, image }) => jwt.sign(
   {
     userID,
     username,
+    image,
   },
   process.env.JWT_REFRESH_SECRET,
   {

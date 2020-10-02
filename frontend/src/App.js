@@ -6,6 +6,7 @@ import {
   Redirect,
   useLocation
 } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import './App.scss';
 
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import ImageDetail from './pages/ImageDetail';
 import Publisher from './pages/Publisher';
 
 import Modal from './components/Modal';
+import userContext from './helpers/userContext';
 
 function ModalRoute({ component: Component, ...rest }) {
   return (
@@ -84,10 +86,46 @@ function FullscreenRoutes() {
   )
 }
 
-export default function App() {
-  return (
-    <div className="App">
-      <FullscreenRoutes />
-    </div>
-  );
+export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      user: {}
+    };
+
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  login(token) {
+    const {userID, username, image} = jwt_decode(token);
+    this.setState({
+      user: {
+        userID,
+        username,
+        image,
+        token,
+      }
+    });
+  }
+
+  logout() {
+    this.setState({ user: {} });
+  }
+
+
+  render() {
+    const context = {
+      user: this.state.user,
+      login: this.login,
+      logout: this.logout
+    }
+    return (
+      <userContext.Provider value={context}>
+        <div className="App">
+          <FullscreenRoutes />
+        </div>
+      </userContext.Provider>
+    );
+  }
 }

@@ -30,10 +30,6 @@ const signup = async (req, res) => {
     return res.status(201).json({
       message: 'User created',
       token,
-      user: {
-        userID: addedUser[0].userID,
-        username: addedUser[0].username,
-      },
       tokenExpiry: process.env.JWT_EXPIRY,
     });
   } catch (err) {
@@ -65,10 +61,6 @@ const signin = async (req, res) => {
       return res.status(200).json({
         message: 'Auth successfull',
         token,
-        user: {
-          userID: user[0].userID,
-          username: user[0].username,
-        },
         tokenExpiry: process.env.JWT_EXPIRY,
       });
     }

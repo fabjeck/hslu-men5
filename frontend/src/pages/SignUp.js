@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
 import axios from 'axios';
 
 import useForm from '../helpers/useForm';
+import userContext from '../helpers/userContext';
 import Error from '../components/Error';
 
 function validateUsername(value) {
@@ -65,12 +66,14 @@ export default function SignUp() {
 
   const [userExists, setUserExists] = useState('');
 
+  const { login } = useContext(userContext);
+
   const history = useHistory();
 
   async function onSubmit() {
     const { username, mail, password } = values;
     try {
-      await axios.post(
+      const { data } = await axios.post(
         'http://localhost:8080/user',
         JSON.stringify({
           username,
@@ -83,6 +86,7 @@ export default function SignUp() {
           }
         }
       );
+      login(data.token);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 409) {

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import validator from 'validator';
 import axios from 'axios';
 import './SignIn.scss';
 
 import useForm from '../helpers/useForm';
+import userContext from '../helpers/userContext';
 import Error from '../components/Error';
 
 function validateUsername(value) {
@@ -48,11 +49,13 @@ export default function SignIn() {
     onSubmit
   });
 
+  const { login } = useContext(userContext);
+
   const history = useHistory();
 
   function authErrorAnimation() {
     setAuthFailed(true);
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setAuthFailed(false);
     }, 500);
   };
@@ -60,7 +63,7 @@ export default function SignIn() {
   async function onSubmit() {
     const { username, password } = values;
     try {
-      await axios.post(
+      const { data } = await axios.post(
         'http://localhost:8080/user/signin',
         JSON.stringify({
           username,
@@ -72,6 +75,7 @@ export default function SignIn() {
           }
         }
       );
+      login(data.token);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 401) {
