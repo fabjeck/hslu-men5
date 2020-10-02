@@ -8,6 +8,9 @@
     "RDS_PORT": "3306",
     "RDS_DB": "gallery_react_rest",
 
-    "JWT_SECRET": "secret"
+    "JWT_SECRET": "secret",
+    "JWT_EXPIRY": 900,
+    "JWT_REFRESH_SECRET": "refresh-secret",
+    "JWT_REFRESH_EXPIRY": 1209600
   }
 }

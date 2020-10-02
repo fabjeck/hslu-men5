@@ -1,5 +1,6 @@
 import express from 'express';
 import userRoutes from './api/routes/user';
+// import tokenRoutes from './api/routes/token';
 
 // Create Express application
 const app = express();
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 
 // Routes which handle incoming requests.
 app.use('/user', userRoutes);
+// app.use('/refresh-token', tokenRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {

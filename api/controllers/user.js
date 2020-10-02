@@ -1,30 +1,40 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { validationResult } from 'express-validator';
 import pool from '../../db/db-connector';
 
+import evaluateSanitization from '../utils/sanitize';
+import { generateRefreshToken, generateToken } from '../utils/token';
+import tokenStore from './token';
+
 const signup = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
+  evaluateSanitization(req, res);
   const { username, mail, password } = req.body;
   try {
     const connection = await pool;
-    const userQuery = `SELECT EXISTS(SELECT * FROM Users WHERE username = '${username}') AS isExisting`;
-    const user = await connection.query(userQuery);
+    const getUserQuery = `SELECT EXISTS(SELECT * FROM Users WHERE username = '${username}') AS isExisting`;
+    const user = await connection.query(getUserQuery);
     if (user[0].isExisting) {
       return res.status(409).json({
         message: 'User exists already',
       });
     }
     const hash = await bcrypt.hash(password, 10);
-    const addUser = `INSERT INTO Users (username, mail, password) VALUES ('${username}', '${mail}', '${hash}')`;
-    await connection.query(addUser);
+    const addUserQuery = `INSERT INTO Users (username, mail, password) VALUES ('${username}', '${mail}', '${hash}')`;
+    const { insertId } = await connection.query(addUserQuery);
+    const retrieveUserQuery = `SELECT * FROM Users WHERE userID = '${insertId}'`;
+    const addedUser = await connection.query(retrieveUserQuery);
+    const refreshToken = generateRefreshToken(addedUser[0]);
+    const token = generateToken(addedUser[0]);
+    tokenStore.add(refreshToken);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
     return res.status(201).json({
       message: 'User created',
+      token,
+      user: {
+        userID: addedUser[0].userID,
+        username: addedUser[0].username,
+      },
+      tokenExpiry: process.env.JWT_EXPIRY,
     });
   } catch (err) {
     return res.status(500).json({
@@ -34,17 +44,12 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
+  evaluateSanitization(req, res);
   const { username, password } = req.body;
   try {
     const connection = await pool;
-    const findUser = `SELECT * FROM Users WHERE username = '${username}'`;
-    const user = await connection.query(findUser);
+    const findUserQuery = `SELECT * FROM Users WHERE username = '${username}'`;
+    const user = await connection.query(findUserQuery);
     if (!user[0]) {
       return res.status(401).json({
         message: 'Auth failed',
@@ -52,19 +57,19 @@ const signin = async (req, res) => {
     }
     const match = await bcrypt.compare(password, user[0].password);
     if (match) {
-      const token = jwt.sign(
-        {
-          userID: user[0].userID,
-        },
-        process.env.JWT_SECRET,
-        {
-          algorithm: 'HS256',
-          expiresIn: '1h',
-        },
-      );
+      const refreshToken = generateRefreshToken(user[0]);
+      const token = generateToken(user[0]);
+      tokenStore.add(refreshToken);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
       return res.status(200).json({
         message: 'Auth successfull',
         token,
+        user: {
+          userID: user[0].userID,
+          username: user[0].username,
+        },
+        tokenExpiry: process.env.JWT_EXPIRY,
       });
     }
     return res.status(401).json({
@@ -78,12 +83,7 @@ const signin = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
+  evaluateSanitization(req, res);
   const { userID } = req.params;
   const { mail, image, password } = req.body;
   try {
