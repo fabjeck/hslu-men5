@@ -1,10 +1,10 @@
 import express from 'express';
 
 import checkRefreshToken from '../middleware/checkRefreshToken';
-import tokenStore from '../controllers/token';
+import silentTokenRefresh from '../controllers/token';
 
 const router = express.Router();
 
-router.post('/', checkRefreshToken, tokenStore.refresh);
+router.post('/', checkRefreshToken, silentTokenRefresh);
 
 export default router;

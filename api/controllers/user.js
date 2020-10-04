@@ -2,10 +2,9 @@ import bcrypt from 'bcrypt';
 import pool from '../../db/db-connector';
 
 import evaluateSanitization from '../utils/sanitize';
-import { generateRefreshToken, generateToken } from '../utils/token';
-import tokenStore from './token';
+import tokenFactory from '../utils/token';
 
-const signup = async (req, res) => {
+async function signup(req, res) {
   evaluateSanitization(req, res);
   const { username, mail, password } = req.body;
   try {
@@ -22,12 +21,7 @@ const signup = async (req, res) => {
     const { insertId } = await connection.query(addUserQuery);
     const retrieveUserQuery = `SELECT * FROM Users WHERE userID = '${insertId}'`;
     const addedUser = await connection.query(retrieveUserQuery);
-    const refreshToken = generateRefreshToken(addedUser[0]);
-    const token = generateToken(addedUser[0]);
-    tokenStore.add(refreshToken);
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
+    const token = tokenFactory(addedUser[0], res);
     return res.status(201).json({
       message: 'User created',
       token,
@@ -38,9 +32,9 @@ const signup = async (req, res) => {
       error: err,
     });
   }
-};
+}
 
-const signin = async (req, res) => {
+async function signin(req, res) {
   evaluateSanitization(req, res);
   const { username, password } = req.body;
   try {
@@ -54,12 +48,7 @@ const signin = async (req, res) => {
     }
     const match = await bcrypt.compare(password, user[0].password);
     if (match) {
-      const refreshToken = generateRefreshToken(user[0]);
-      const token = generateToken(user[0]);
-      tokenStore.add(refreshToken);
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.setHeader('Access-Control-Allow-Credentials', true);
-      res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
+      const token = tokenFactory(user[0], res);
       return res.status(200).json({
         message: 'Auth successfull',
         token,
@@ -74,9 +63,9 @@ const signin = async (req, res) => {
       error: err,
     });
   }
-};
+}
 
-const update = async (req, res) => {
+async function update(req, res) {
   evaluateSanitization(req, res);
   const { userID } = req.params;
   const { mail, image, password } = req.body;
@@ -92,10 +81,10 @@ const update = async (req, res) => {
       error: err,
     });
   }
-};
+}
 
 // 'delete' is a JS keyword
-const del = async (req, res) => {
+async function del(req, res) {
   const { userID } = req.params;
   try {
     const connection = await pool;
@@ -109,7 +98,7 @@ const del = async (req, res) => {
       error: err,
     });
   }
-};
+}
 
 export {
   signup, signin, update, del,
