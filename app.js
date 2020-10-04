@@ -1,6 +1,8 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+
 import userRoutes from './api/routes/user';
-// import tokenRoutes from './api/routes/token';
+import tokenRoutes from './api/routes/token';
 
 // Create Express application
 const app = express();
@@ -8,6 +10,9 @@ const app = express();
 // Use Body Parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Use Cookie Parser
+app.use(cookieParser());
 
 // Define headers
 app.use((req, res, next) => {
@@ -27,7 +32,7 @@ app.use((req, res, next) => {
 
 // Routes which handle incoming requests.
 app.use('/user', userRoutes);
-// app.use('/refresh-token', tokenRoutes);
+app.use('/refresh-token', tokenRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {

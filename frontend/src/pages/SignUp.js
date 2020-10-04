@@ -86,7 +86,7 @@ export default function SignUp() {
           }
         }
       );
-      login(data.token);
+      login(data.token, data.tokenExpiry);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 409) {

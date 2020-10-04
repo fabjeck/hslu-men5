@@ -5,6 +5,6 @@ import tokenStore from '../controllers/token';
 
 const router = express.Router();
 
-router.post('/refresh-token', checkRefreshToken, tokenStore.refresh);
+router.post('/', checkRefreshToken, tokenStore.refresh);
 
 export default router;

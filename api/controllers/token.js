@@ -15,7 +15,8 @@ class TokenStore {
       const refreshToken = generateRefreshToken(req.decodedToken);
       const token = generateToken(req.decodedToken);
       this.list.add(refreshToken);
-      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.setHeader('Access-Control-Allow-Credentials', true);
       res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
       return res.status(200).json({
         message: 'Tokens refreshed',
@@ -24,7 +25,7 @@ class TokenStore {
       });
     }
     return res.status(401).json({
-      error: 'Invalid token.',
+      error: 'Unknown token.',
     });
   }
 }

@@ -25,7 +25,8 @@ const signup = async (req, res) => {
     const refreshToken = generateRefreshToken(addedUser[0]);
     const token = generateToken(addedUser[0]);
     tokenStore.add(refreshToken);
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
     return res.status(201).json({
       message: 'User created',
@@ -56,7 +57,8 @@ const signin = async (req, res) => {
       const refreshToken = generateRefreshToken(user[0]);
       const token = generateToken(user[0]);
       tokenStore.add(refreshToken);
-      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.setHeader('Access-Control-Allow-Credentials', true);
       res.setHeader('Set-Cookie', `token=${refreshToken}; Secure; HttpOnly`);
       return res.status(200).json({
         message: 'Auth successfull',

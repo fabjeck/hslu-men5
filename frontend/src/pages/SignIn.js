@@ -75,7 +75,7 @@ export default function SignIn() {
           }
         }
       );
-      login(data.token);
+      login(data.token, data.tokenExpiry);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 401) {
