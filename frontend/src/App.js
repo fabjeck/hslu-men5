@@ -1,5 +1,4 @@
 import React from 'react';
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import './App.scss';
 
@@ -17,6 +16,7 @@ export default class App extends React.Component {
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   componentDidMount() {
@@ -48,13 +48,10 @@ export default class App extends React.Component {
     }
   }
 
-  login(token, tokenExpiry) {
-    const { userID, username, image } = jwt_decode(token);
+  login({user, token, tokenExpiry}) {
     this.setState({
       user: {
-        userID,
-        username,
-        image,
+        ...user,
         token
       }
     });
@@ -66,12 +63,23 @@ export default class App extends React.Component {
     clearTimeout(this.refreshTokenTimer);
   }
 
+  edit({mail, image}) {
+    this.setState({
+      user: {
+        ...this.state.user,
+        mail,
+        image
+      }
+    });
+  }
+
 
   render() {
     const context = {
       user: this.state.user,
       login: this.login,
-      logout: this.logout
+      logout: this.logout,
+      edit: this.edit
     }
     return (
       <userContext.Provider value={context}>

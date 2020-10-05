@@ -9,8 +9,8 @@
     "RDS_DB": "gallery_react_rest",
 
     "JWT_SECRET": "secret",
-    "JWT_EXPIRY": 900,
+    "JWT_EXPIRY": "15m",
     "JWT_REFRESH_SECRET": "refresh-secret",
-    "JWT_REFRESH_EXPIRY": 1209600
+    "JWT_REFRESH_EXPIRY": "2w"
   }
 }

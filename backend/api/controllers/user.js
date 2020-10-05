@@ -19,11 +19,16 @@ async function signup(req, res) {
     const hash = await bcrypt.hash(password, 10);
     const addUserQuery = `INSERT INTO Users (username, mail, password) VALUES ('${username}', '${mail}', '${hash}')`;
     const { insertId } = await connection.query(addUserQuery);
-    const retrieveUserQuery = `SELECT * FROM Users WHERE userID = '${insertId}'`;
+    const retrieveUserQuery = `SELECT userID, username, mail, image FROM Users WHERE userID = ${insertId}`;
     const addedUser = await connection.query(retrieveUserQuery);
-    const token = tokenFactory(addedUser[0], res);
+    const payload = {
+      userID: addedUser[0].userID,
+      username: addedUser[0].username,
+    };
+    const token = tokenFactory(payload, res);
     return res.status(201).json({
       message: 'User created',
+      user: addedUser[0],
       token,
       tokenExpiry: process.env.JWT_EXPIRY,
     });
@@ -48,9 +53,15 @@ async function signin(req, res) {
     }
     const match = await bcrypt.compare(password, user[0].password);
     if (match) {
-      const token = tokenFactory(user[0], res);
+      const payload = {
+        userID: user[0].userID,
+        username: user[0].username,
+      };
+      const token = tokenFactory(payload, res);
+      delete user[0].password;
       return res.status(200).json({
         message: 'Auth successfull',
+        user: user[0],
         token,
         tokenExpiry: process.env.JWT_EXPIRY,
       });
@@ -67,14 +78,20 @@ async function signin(req, res) {
 
 async function update(req, res) {
   evaluateSanitization(req, res);
-  const { userID } = req.params;
   const { mail, image, password } = req.body;
+  let hash;
+  if (password) {
+    hash = await bcrypt.hash(password, 10);
+  }
   try {
     const connection = await pool;
-    const updateUser = `UPDATE Users SET mail = '${mail}', password = '${password}', image = '${image}' WHERE userID = '${userID}'`;
-    await connection.query(updateUser);
+    const updateUserQuery = `UPDATE Users SET mail = '${mail}', password = COALESCE(NULLIF('${hash}', 'undefined'), password), image = COALESCE(NULLIF('${image}', ''), image) WHERE userID = ${req.userID}`;
+    await connection.query(updateUserQuery);
+    const updatedUserQuery = `SELECT mail, image FROM Users WHERE userID = ${req.userID}`;
+    const updatedUser = await connection.query(updatedUserQuery);
     return res.status(200).json({
       message: 'User profil updated',
+      user: updatedUser[0],
     });
   } catch (err) {
     return res.status(500).json({
@@ -85,10 +102,9 @@ async function update(req, res) {
 
 // 'delete' is a JS keyword
 async function del(req, res) {
-  const { userID } = req.params;
   try {
     const connection = await pool;
-    const deleteUser = `DELETE FROM Users WHERE userID = '${userID}'`;
+    const deleteUser = `DELETE FROM Users WHERE userID = '${req.userID}'`;
     await connection.query(deleteUser);
     return res.status(200).json({
       message: 'User profil deleted',

@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+import { body } from 'express-validator';
 
 const user = {
   signup: [
@@ -30,11 +30,7 @@ const user = {
       .normalizeEmail(),
     body('image')
       .escape(),
-    param('userID')
-      .escape(),
-  ],
-  delete: [
-    param('userID')
+    body('password')
       .escape(),
   ],
 };

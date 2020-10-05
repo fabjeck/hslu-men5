@@ -1,6 +1,6 @@
 import express from 'express';
 
-import checkRefreshToken from '../middleware/checkRefreshToken';
+import checkRefreshToken from '../../middleware/checkRefreshToken';
 import silentTokenRefresh from '../controllers/token';
 
 const router = express.Router();

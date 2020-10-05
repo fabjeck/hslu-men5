@@ -5,7 +5,7 @@ import tokenStore from '../tokenStore';
 export default (req, res, next) => {
   const { token } = req.cookies;
   if (!token) {
-    return res.status(403).json({
+    return res.status(400).json({
       error: 'No token provided.',
     });
   }

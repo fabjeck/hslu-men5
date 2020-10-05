@@ -38,90 +38,108 @@ header {
     justify-content: flex-end;
     align-items: baseline;
 
-    > li {
+    li {
       display: inline-block;
       margin-right: 10px;
       padding: 10px 0;
+
       &:last-child {
         margin-right: 0;
       }
+
       &:hover {
-        color: darken($secondary, 20%)
+        color: darken($secondary, 20%);
       }
-      &.profil {
-        position: relative;
-        &:hover {
-          color: inherit;
-          .profil__dropdown {
-            display: block;
-          }
-        }
-        .profil__image {
-          width: $profil-diameter;
-          height: $profil-diameter;
-          border-radius: 100%;
-          display: inline-block;
-          vertical-align: middle;
-          cursor: pointer;
-        }
+    }
+
+    .profil {
+      position: relative;
+
+      &:hover {
         .profil__dropdown {
+          display: block;
+        }
+      }
+
+      .profil__image {
+        width: $profil-diameter;
+        height: $profil-diameter;
+        border-radius: 100%;
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+
+      .profil__dropdown {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate3d(-50%, 0, 0);
+        z-index: 999;
+        background-color: $white;
+        width: 200px;
+        border: 1px solid $modal-border-color;
+        border-radius: $border-radius;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: none;
+
+        &::before {
+          content: '';
+          display: block;
           position: absolute;
-          top: 100%;
+          bottom: 100%;
           left: 50%;
           transform: translate3d(-50%, 0, 0);
-          z-index: 999;
-          background-color: $white;
-          width: 200px;
-          border: 1px solid $modal-border-color;
-          border-radius: $border-radius;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-          display: none;
-          &::before {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translate3d(-50%, 0, 0);
-            width: 0;
-            height: 0;
-            border-left: $arrow-width solid transparent;
-            border-right: $arrow-width solid transparent;
-            border-bottom: $arrow-width solid $modal-border-color;
-          }
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: calc(100% - 1px);
-            left: 50%;
-            transform: translate3d(-50%, 0, 0);
-            width: 0;
-            height: 0;
-            border-left: $arrow-width solid transparent;
-            border-right: $arrow-width solid transparent;
-            border-bottom: $arrow-width solid $white;
-          }
-          p {
-            font-weight: $weight-semiBold;
-            color: $black;
-            margin: 0;
-            padding: 15px;
-          }
-          hr {
-            border: none;
-            height :1px;
-            background-color: $modal-border-color;
-            margin: 0;
-          }
-          li {
-            padding: 10px;
+          width: 0;
+          height: 0;
+          border-left: $arrow-width solid transparent;
+          border-right: $arrow-width solid transparent;
+          border-bottom: $arrow-width solid $modal-border-color;
+        }
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: calc(100% - 1px);
+          left: 50%;
+          transform: translate3d(-50%, 0, 0);
+          width: 0;
+          height: 0;
+          border-left: $arrow-width solid transparent;
+          border-right: $arrow-width solid transparent;
+          border-bottom: $arrow-width solid $white;
+        }
+
+        p {
+          font-weight: $weight-semiBold;
+          color: $black;
+          margin: 0;
+          padding: 15px;
+        }
+
+        hr {
+          border: none;
+          height: 1px;
+          background-color: $modal-border-color;
+          margin: 0;
+        }
+
+        li {
+          &.delete__anchor {
+            color: $delete;
+
             &:hover {
-              color: darken($secondary, 20%)
+              color: darken($delete, 10%);
             }
-            a {
-              display: block;
-            }
+          }
+
+          display: block;
+          padding: 0;
+
+          a {
+            display: block;
+            padding: 10px 15px;
           }
         }
       }

@@ -8,15 +8,15 @@ import useForm from '../helpers/useForm';
 import userContext from '../helpers/userContext';
 import Error from '../components/Error';
 
-function validateUsername(value) {
-  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+function validateUsername(username) {
+  if (validator.isEmpty(username, { ignore_whitespace: true })) {
     return 'Username is required.';
   }
   return null;
 }
 
-function validatePassword(value) {
-  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+function validatePassword(password) {
+  if (validator.isEmpty(password, { ignore_whitespace: true })) {
     return 'Password is required.';
   }
   return null;
@@ -28,8 +28,8 @@ const initialValues = {
 };
 
 const validate = {
-  username: value => validateUsername(value),
-  password: value => validatePassword(value)
+  username: username => validateUsername(username),
+  password: username => validatePassword(username)
 }
 
 export default function SignIn() {
@@ -75,7 +75,7 @@ export default function SignIn() {
           }
         }
       );
-      login(data.token, data.tokenExpiry);
+      login(data);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 401) {

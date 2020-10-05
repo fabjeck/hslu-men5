@@ -7,31 +7,31 @@ import useForm from '../helpers/useForm';
 import userContext from '../helpers/userContext';
 import Error from '../components/Error';
 
-function validateUsername(value) {
-  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+function validateUsername(username) {
+  if (validator.isEmpty(username, { ignore_whitespace: true })) {
     return 'Username is required.';
   }
-  if (!value.split(' ').every((word) => validator.isAlpha(word, 'de-DE'))) {
+  if (!username.split(' ').every((word) => validator.isAlpha(word, 'de-DE'))) {
     return 'Username must only contain letters.';
   }
   return null;
 }
 
-function validateMail(value) {
-  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+function validateMail(mail) {
+  if (validator.isEmpty(mail, { ignore_whitespace: true })) {
     return 'Mail is required.';
   }
-  if (!validator.isEmail(value)) {
+  if (!validator.isEmail(mail)) {
     return 'Invalid mail format.';
   }
   return null;
 }
 
-function validatePassword(value) {
-  if (validator.isEmpty(value, { ignore_whitespace: true })) {
+function validatePassword(password) {
+  if (validator.isEmpty(password, { ignore_whitespace: true })) {
     return 'Password is required.';
   }
-  if (!validator.isLength(value, { min: 8 })) {
+  if (!validator.isLength(password, { min: 8 })) {
     return 'Password must contain at least 8 characters.';
   }
   return null;
@@ -44,9 +44,9 @@ const initialValues = {
 };
 
 const validate = {
-  username: value => validateUsername(value),
-  mail: value => validateMail(value),
-  password: value => validatePassword(value)
+  username: username => validateUsername(username),
+  mail: mail => validateMail(mail),
+  password: password => validatePassword(password)
 }
 
 export default function SignUp() {
@@ -86,7 +86,7 @@ export default function SignUp() {
           }
         }
       );
-      login(data.token, data.tokenExpiry);
+      login(data);
       history.push('/');
     } catch (error) {
       if (error.response?.status === 409) {

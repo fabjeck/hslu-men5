@@ -1,4 +1,4 @@
-import tokenStore from '../tokenStore';
+import tokenStore from '../../tokenStore';
 
 import tokenFactory from '../utils/token';
 
