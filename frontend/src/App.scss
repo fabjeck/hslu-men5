@@ -1,7 +1,6 @@
 @import './styles/variables';
 
 $profil-diameter: 35px;
-$modal-border-color: #e6e6e6;
 $arrow-width: 8px;
 
 .App {
@@ -68,6 +67,7 @@ header {
         display: inline-block;
         vertical-align: middle;
         cursor: pointer;
+        background-color: $empty;
       }
 
       .profil__dropdown {
@@ -78,7 +78,7 @@ header {
         z-index: 999;
         background-color: $white;
         width: 200px;
-        border: 1px solid $modal-border-color;
+        border: 1px solid $empty;
         border-radius: $border-radius;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         display: none;
@@ -94,7 +94,7 @@ header {
           height: 0;
           border-left: $arrow-width solid transparent;
           border-right: $arrow-width solid transparent;
-          border-bottom: $arrow-width solid $modal-border-color;
+          border-bottom: $arrow-width solid $empty;
         }
 
         &::after {
@@ -121,7 +121,7 @@ header {
         hr {
           border: none;
           height: 1px;
-          background-color: $modal-border-color;
+          background-color: $empty;
           margin: 0;
         }
 

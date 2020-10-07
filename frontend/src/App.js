@@ -5,7 +5,6 @@ import './App.scss';
 import Router from './router/Router';
 
 import userContext from './helpers/userContext';
-import history from './router/history';
 
 export default class App extends React.Component {
   constructor() {
@@ -30,20 +29,14 @@ export default class App extends React.Component {
   refreshTokenTimer(tokenExpiry) {
     setTimeout(() => {
       this.secretTokenRefresh();
-    }, tokenExpiry);
+    }, tokenExpiry * 1000);
   }
 
   async secretTokenRefresh() {
     try {
-      const { data } = await axios.post('http://localhost:8080/refresh-token', { withCredentials: true });
+      const { data } = await axios.get('http://localhost:8080/refresh-token', { withCredentials: true });
       this.login(data.token, data.tokenExpiry);
     } catch (error) {
-      if (error.response?.status === 401) {
-        return history.push('/signin');
-      }
-      if (error.response?.status === 403) {
-        return;
-      }
       return error;
     }
   }

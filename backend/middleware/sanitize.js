@@ -28,8 +28,6 @@ const user = {
     body('mail')
       .isEmail()
       .normalizeEmail(),
-    body('image')
-      .escape(),
     body('password')
       .escape(),
   ],

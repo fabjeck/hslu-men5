@@ -1,28 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import validator from 'validator';
 import axios from 'axios';
 
-import useForm from '../helpers/useForm';
-import userContext from '../helpers/userContext';
+import ProfilUpload from '../components/ProfilUpload';
 import Error from '../components/Error';
 
-function validateMail(mail) {
-  if (validator.isEmpty(mail, { ignore_whitespace: true })) {
-    return 'Mail is required.';
-  }
-  if (!validator.isEmail(mail)) {
-    return 'Invalid mail format.';
-  }
-  return null;
-}
+import useForm from '../helpers/useForm';
+import userContext from '../helpers/userContext';
 
-const initialValues = {
-  mail: '',
-  password: '',
-  repeatPassword: ''
-};
 
 export default function UserEdit() {
+
+  function validateMail(mail) {
+    if (validator.isEmpty(mail, { ignore_whitespace: true })) {
+      return 'Mail is required.';
+    }
+    if (!validator.isEmail(mail)) {
+      return 'Invalid mail format.';
+    }
+    return null;
+  }
 
   function validatePassword(password) {
     if (!validator.isEmpty(password, { ignore_whitespace: true }) && !validator.isLength(password, { min: 8 })) {
@@ -47,6 +44,14 @@ export default function UserEdit() {
     repeatPassword: repeatPassword => validateRepeatPassword(repeatPassword)
   }
 
+  const { user, edit } = useContext(userContext);
+
+  const initialValues = {
+    mail: user.mail,
+    password: '',
+    repeatPassword: ''
+  };
+
   const {
     values,
     touched,
@@ -60,21 +65,36 @@ export default function UserEdit() {
     onSubmit
   });
 
-  const { user, edit } = useContext(userContext);
+  const [image, setImage] = useState(user.image);
+  const reader = new FileReader();
+
+  function changeImage(event) {
+    const { files } = event.target;
+    reader.onload = (e) => {
+      const { result } = e.target;
+      setImage(result);
+    };
+    reader.readAsDataURL(files[0]);
+  }
+
+  function removeImage(fileInput) {
+    fileInput.value = '';
+    setImage();
+  }
 
   async function onSubmit() {
-    const { image, mail, password } = values;
+    const { mail, password } = values;
+    const formData = new FormData();
+    formData.set('image', null);
+    formData.set('mail', mail);
+    formData.set('password', password);
     try {
       const { data } = await axios.patch(
         'http://localhost:8080/user',
-        JSON.stringify({
-          image,
-          mail,
-          password
-        }),
+        formData,
         {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${user.token}`,
           }
         }
@@ -89,6 +109,9 @@ export default function UserEdit() {
     <div className="auth__container">
       <h1>Edit Profil</h1>
       <form onSubmit={handleSubmit} autoComplete="on" noValidate>
+        <fieldset>
+          <ProfilUpload image={image} onInputChange={changeImage} onInputClear={removeImage} />
+        </fieldset>
         <fieldset>
           <label>Mail</label>
           <input type="email" name="mail" value={values.mail} onChange={handleChange} onBlur={handleBlur} autoComplete="email" />

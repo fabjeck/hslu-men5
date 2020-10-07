@@ -22,5 +22,5 @@ export default (req, res, next) => {
     });
   }
   req.userID = decodedToken.userID;
-  return next();
+  next();
 };

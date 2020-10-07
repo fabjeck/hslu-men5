@@ -77,27 +77,29 @@ async function signin(req, res) {
 }
 
 async function update(req, res) {
-  evaluateSanitization(req, res);
-  const { mail, image, password } = req.body;
-  let hash;
-  if (password) {
-    hash = await bcrypt.hash(password, 10);
-  }
-  try {
-    const connection = await pool;
-    const updateUserQuery = `UPDATE Users SET mail = '${mail}', password = COALESCE(NULLIF('${hash}', 'undefined'), password), image = COALESCE(NULLIF('${image}', ''), image) WHERE userID = ${req.userID}`;
-    await connection.query(updateUserQuery);
-    const updatedUserQuery = `SELECT mail, image FROM Users WHERE userID = ${req.userID}`;
-    const updatedUser = await connection.query(updatedUserQuery);
-    return res.status(200).json({
-      message: 'User profil updated',
-      user: updatedUser[0],
-    });
-  } catch (err) {
-    return res.status(500).json({
-      error: err,
-    });
-  }
+  console.log(req.file);
+  console.log(req.body);
+  // evaluateSanitization(req, res);
+  // const { image, mail, password } = req.body;
+  // let hash;
+  // if (password) {
+  //   hash = await bcrypt.hash(password, 10);
+  // }
+  // try {
+  //   const connection = await pool;
+  //   const updateUserQuery = `UPDATE Users SET mail = '${mail}', password = COALESCE(NULLIF('${hash}', 'undefined'), password), image = NULLIF('${image}', 'null') WHERE userID = ${req.userID}`;
+  //   await connection.query(updateUserQuery);
+  //   const updatedUserQuery = `SELECT mail, image FROM Users WHERE userID = ${req.userID}`;
+  //   const updatedUser = await connection.query(updatedUserQuery);
+  //   return res.status(200).json({
+  //     message: 'User profil updated',
+  //     user: updatedUser[0],
+  //   });
+  // } catch (err) {
+  //   return res.status(500).json({
+  //     error: err,
+  //   });
+  // }
 }
 
 // 'delete' is a JS keyword

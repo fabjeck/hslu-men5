@@ -14,10 +14,13 @@ app.use(express.json());
 // Use Cookie Parser
 app.use(cookieParser());
 
+app.use(express.static(`${__dirname}/uploads`));
 // Define headers
 app.use((req, res, next) => {
   // Define allowed request origins
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  // Allow credentials (Set-Cookie)
+  res.header('Access-Control-Allow-Credentials', true);
   // Define allowed request headers
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   // Define allowed request methods
@@ -31,8 +34,8 @@ app.use((req, res, next) => {
 });
 
 // Routes which handle incoming requests.
-app.use('/user', userRoutes);
 app.use('/refresh-token', tokenRoutes);
+app.use('/user', userRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {

@@ -12,7 +12,7 @@ export default function silentTokenRefresh(req, res) {
       tokenExpiry: process.env.JWT_EXPIRY,
     });
   }
-  return res.status(401).json({
+  return res.status(404).json({
     error: 'Unknown token.',
   });
 }

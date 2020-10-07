@@ -5,6 +5,6 @@ import silentTokenRefresh from '../controllers/token';
 
 const router = express.Router();
 
-router.post('/', checkRefreshToken, silentTokenRefresh);
+router.get('/', checkRefreshToken, silentTokenRefresh);
 
 export default router;

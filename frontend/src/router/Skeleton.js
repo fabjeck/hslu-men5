@@ -49,7 +49,7 @@ export default function Skeleton() {
               <span className="profil">
                 <li>
                   <div className="profil__image image__frame">
-                    <img src={user.image} alt={user.username} />
+                    {user.image && <img src={user.image} alt={user.username} />}
                   </div>
                 </li>
                 <div className="profil__dropdown">
