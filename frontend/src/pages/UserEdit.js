@@ -66,10 +66,12 @@ export default function UserEdit() {
   });
 
   const [image, setImage] = useState(user.image);
+  const [file, setFile] = useState();
   const reader = new FileReader();
 
   function changeImage(event) {
     const { files } = event.target;
+    setFile(files[0]);
     reader.onload = (e) => {
       const { result } = e.target;
       setImage(result);
@@ -80,16 +82,18 @@ export default function UserEdit() {
   function removeImage(fileInput) {
     fileInput.value = '';
     setImage();
+    setFile();
   }
 
   async function onSubmit() {
     const { mail, password } = values;
     const formData = new FormData();
-    formData.set('image', null);
+    formData.set('image', file);
     formData.set('mail', mail);
     formData.set('password', password);
+    console.log(...formData);
     try {
-      const { data } = await axios.patch(
+      const { data } = await axios.post(
         'http://localhost:8080/user',
         formData,
         {

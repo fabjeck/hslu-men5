@@ -20,7 +20,7 @@ router.post('/signin', userSanitization.signin, userController.signin);
 
 // router.patch('/', checkAuth, imageUpload, imageResize(imageSizes, 'profil', Date.now()), userSanitization.update, userController.update);
 
-router.patch('/', checkAuth, imageUpload, userSanitization.update, userController.update);
+router.post('/', imageUpload, userSanitization.update, userController.update);
 
 router.delete('/', checkAuth, userController.del);
 
