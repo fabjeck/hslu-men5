@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import validator from 'validator';
 import axios from 'axios';
 
@@ -65,13 +66,16 @@ export default function UserEdit() {
     onSubmit
   });
 
-  const [image, setImage] = useState(user.image);
+  const [image, setImage] = useState(user.image?.[100]);
   const [file, setFile] = useState();
+  const [imageChanged, setImageChanged] = useState(false);
   const reader = new FileReader();
+  const history = useHistory();
 
   function changeImage(event) {
     const { files } = event.target;
     setFile(files[0]);
+    setImageChanged(true);
     reader.onload = (e) => {
       const { result } = e.target;
       setImage(result);
@@ -88,13 +92,14 @@ export default function UserEdit() {
   async function onSubmit() {
     const { mail, password } = values;
     const formData = new FormData();
-    formData.set('image', file);
+    if (imageChanged) {
+      formData.set('image', file);
+    }
     formData.set('mail', mail);
     formData.set('password', password);
-    console.log(...formData);
     try {
-      const { data } = await axios.post(
-        'http://localhost:8080/user',
+      const { data } = await axios.patch(
+        'http://localhost:8080/user/',
         formData,
         {
           headers: {
@@ -104,6 +109,7 @@ export default function UserEdit() {
         }
       );
       edit(data.user);
+      history.push('/');
     } catch (error) {
       return error;
     }

@@ -1,26 +1,33 @@
 import sharp from 'sharp';
+import path from 'path';
 
 async function transformer(file, { width, height }, filePathAndName) {
-  await sharp(file.buffer)
+  return await sharp(file.buffer)
     .resize(width, height)
     .webp({ lossless: true })
     .toFile(filePathAndName);
 };
 
-export default function imageResize(sizes, filePath, fileName) {
+export default function imageResize(sizes, filePath) {
   return async (req, res, next) => {
-    let filePathAndName;
-    try {
-      sizes.forEach(async (size) => {
-        filePathAndName = `/uploads/${filePath}/${fileName}-${size.width}`;
-        await transformer(req.file, size, filePathAndName);
-      });
-      req.body.image.push(filePathAndName);
+    if (req.file) {
+      let images = {};
+      try {
+        for (const size in sizes) {
+          const name = `${req.userID}-${Date.now()}-${sizes[size].width}.webg`;
+          const filePathAndName = path.resolve(__dirname, `../uploads/${filePath}/${name}`);
+          await transformer(req.file, sizes[size], filePathAndName);
+          images[sizes[size].width] = `http://localhost:8080/static/${path.join(filePath, name)}`;
+        }
+        req.body.images = images;
+        next();
+      } catch (error) {
+        return res.status(500).json({
+          error: 'Failed to resize image'
+        });
+      }
+    } else {
       next();
-    } catch (error) {
-      return res.status(500).json({
-        error: 'Failed to resize image'
-      });
     }
-  };
+  }
 };

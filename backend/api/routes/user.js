@@ -7,6 +7,10 @@ import imageResize from '../../middleware/imageResize';
 
 const imageSizes = [
   {
+    width: 50,
+    height: null
+  },
+  {
     width: 100,
     height: null
   }
@@ -18,9 +22,7 @@ router.post('/', userSanitization.signup, userController.signup);
 
 router.post('/signin', userSanitization.signin, userController.signin);
 
-// router.patch('/', checkAuth, imageUpload, imageResize(imageSizes, 'profil', Date.now()), userSanitization.update, userController.update);
-
-router.post('/', imageUpload, userSanitization.update, userController.update);
+router.patch('/', checkAuth, imageUpload, imageResize(imageSizes, 'profiles'), userSanitization.update, userController.update);
 
 router.delete('/', checkAuth, userController.del);
 

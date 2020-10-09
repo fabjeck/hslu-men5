@@ -37,6 +37,7 @@ export default class App extends React.Component {
       const { data } = await axios.get('http://localhost:8080/refresh-token', { withCredentials: true });
       this.login(data.token, data.tokenExpiry);
     } catch (error) {
+      this.logout();
       return error;
     }
   }

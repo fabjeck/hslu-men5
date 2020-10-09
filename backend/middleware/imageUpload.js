@@ -22,9 +22,11 @@ const upload = instance.single('image');
 
 export default (req, res, next) => {
   upload(req, res, (err) => {
-    return res.status(500).json({
-      error: err,
-    });
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json({
+        error: err,
+      });
+    }
+    next();
   });
-  next();
 }

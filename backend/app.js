@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 import userRoutes from './api/routes/user';
 import tokenRoutes from './api/routes/token';
@@ -14,7 +15,10 @@ app.use(express.json());
 // Use Cookie Parser
 app.use(cookieParser());
 
-app.use(express.static(`${__dirname}/uploads`));
+// Serve files from static directory
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/static', express.static(path.join(__dirname, 'uploads')));
+
 // Define headers
 app.use((req, res, next) => {
   // Define allowed request origins
