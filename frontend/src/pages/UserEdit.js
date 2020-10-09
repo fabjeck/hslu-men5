@@ -99,7 +99,7 @@ export default function UserEdit() {
     formData.set('password', password);
     try {
       const { data } = await axios.patch(
-        'http://localhost:8080/user/',
+        'http://localhost:8080/users',
         formData,
         {
           headers: {

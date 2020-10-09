@@ -64,7 +64,7 @@ export default function SignIn() {
     const { username, password } = values;
     try {
       const { data } = await axios.post(
-        'http://localhost:8080/user/signin',
+        'http://localhost:8080/users/signin',
         JSON.stringify({
           username,
           password

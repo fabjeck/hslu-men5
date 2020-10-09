@@ -74,7 +74,7 @@ export default function SignUp() {
     const { username, mail, password } = values;
     try {
       const { data } = await axios.post(
-        'http://localhost:8080/user',
+        'http://localhost:8080/users',
         JSON.stringify({
           username,
           mail,

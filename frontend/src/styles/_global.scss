@@ -88,7 +88,7 @@ form {
       width: 100%;
       border-radius: $border-radius;
       border: 1px solid transparent;
-      background-color: #eeeeee;
+      background-color: $empty;
       color: $secondary;
 
       &:hover,

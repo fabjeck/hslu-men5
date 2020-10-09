@@ -13,7 +13,7 @@ export default function Skeleton() {
   async function deleteAccount() {
     try {
       await axios.delete(
-        'http://localhost:8080/user',
+        'http://localhost:8080/users',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export default function Skeleton() {
                   <hr />
                   <ul>
                     <li>
-                      <Link to={`/edit/${user.username}`}>Edit Profile</Link>
+                      <Link to={`/edit`}>Edit Profile</Link>
                     </li>
                     <li>
                       <Link to="/" onClick={logout}>Logout</Link>
@@ -69,7 +69,7 @@ export default function Skeleton() {
                 </div>
               </span>
               <li>
-                <Link to="/edit" className="button button__action">Upload</Link>
+                <Link to="/uploads" className="button button__action">Upload</Link>
               </li>
             </React.Fragment>
           }

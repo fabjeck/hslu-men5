@@ -128,6 +128,20 @@ async function update(req, res) {
 // 'delete' is a JS keyword
 async function del(req, res) {
   try {
+    const imgPath = path.resolve(__dirname, '../../uploads/profiles');
+    const files = await fs.promises.readdir(imgPath);
+    const noJunk = files.filter(junk.not);
+    const match = noJunk.filter((file) => file.split('-')[0] == req.userID);
+    match.forEach((file) => {
+      const img = path.join(imgPath, file);
+      fs.unlink(img, (err) => {
+        if (err) {
+          return res.status(500).json({
+            err,
+          });
+        };
+      });
+    });
     const connection = await pool;
     const deleteUser = `DELETE FROM Users WHERE userID = '${req.userID}'`;
     await connection.query(deleteUser);

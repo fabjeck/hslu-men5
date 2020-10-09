@@ -11,7 +11,7 @@ export default function useForm({ initialValues, validate, onSubmit }) {
     // extract changed value from rest
     const { [name]: changedValue, ...rest } = values;
 
-    const { [name]: touchedField, ...others} = touched;
+    const { [name]: touchedField, ...others } = touched;
 
     setValues({
       ...rest,
@@ -38,6 +38,31 @@ export default function useForm({ initialValues, validate, onSubmit }) {
       ...(error && { [name]: touched[name] && error }),
     });
   };
+
+  function handleInput(event) {
+    const { name, files } = event.target;
+
+    const { [name]: changedValue, ...rest } = values;
+
+    const { [name]: removedError, ...others } = errors;
+
+    setErrors({
+      ...others,
+    });
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const { result } = e.target;
+      setValues({
+        ...rest,
+        [name]: {
+          file: files[0],
+          img: result
+        }
+      });
+    };
+    reader.readAsDataURL(files[0]);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -76,11 +101,12 @@ export default function useForm({ initialValues, validate, onSubmit }) {
   }
 
   return {
-    values, 
+    values,
     touched,
     errors,
     handleChange,
     handleBlur,
+    handleInput,
     handleSubmit
   }
 };

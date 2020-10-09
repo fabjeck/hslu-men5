@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 
-const user = {
+const users = {
   signup: [
     body('username')
       .not().isEmpty()
@@ -33,5 +33,11 @@ const user = {
   ],
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { user };
+const posts = [
+  body('title')
+    .not().isEmpty()
+    .trim()
+    .escape()
+]
+
+export { users, posts };

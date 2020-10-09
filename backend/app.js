@@ -2,8 +2,9 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
-import userRoutes from './api/routes/user';
-import tokenRoutes from './api/routes/token';
+import tokenRoute from './api/routes/token';
+import userRoutes from './api/routes/users';
+import postRoutes from './api/routes/posts';
 
 // Create Express application
 const app = express();
@@ -38,8 +39,9 @@ app.use((req, res, next) => {
 });
 
 // Routes which handle incoming requests.
-app.use('/refresh-token', tokenRoutes);
-app.use('/user', userRoutes);
+app.use('/refresh-token', tokenRoute);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 
 // Catch requests that didn't match the defined routes
 app.use((req, res, next) => {
