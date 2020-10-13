@@ -22,6 +22,12 @@ const imageSizes = [
 
 const router = express.Router();
 
-router.post('/', checkAuth, imageUpload, imageResize(imageSizes, 'posts'), postSanitization, postsController.post);
+router.post('/', checkAuth, imageUpload, imageResize(imageSizes, 'posts'), postSanitization, postsController.create);
+
+router.get('/', postsController.get);
+
+router.get('/:image', postsController.getSingle);
+
+router.patch('/likes/:postID', checkAuth, postsController.toggleLike);
 
 export default router;

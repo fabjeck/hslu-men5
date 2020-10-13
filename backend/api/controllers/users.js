@@ -155,6 +155,53 @@ async function del(req, res) {
   }
 }
 
+async function get(req, res) {
+  const { username } = req.params;
+  try {
+    const connection = await pool;
+    const getUserQuery = `SELECT username, image AS profile, mail FROM Users WHERE username = '${username}'`;
+    const userReq = connection.query(getUserQuery);
+    const getPostsQuery = `SELECT postID, t1.image, title FROM Posts t1 JOIN Users t2 ON t1.userID = t2.userID WHERE t2.username = '${username}'`;
+    const postsReq = connection.query(getPostsQuery);
+    const getLikesQuery = `SELECT t1.postID, t1.userID FROM Likes t1 JOIN Posts t2 ON t1.postID = t2.postID JOIN Users t3 ON t2.userID = t3.userID WHERE t3.username = '${username}'`;
+    const likesReq = connection.query(getLikesQuery);
+    const [user, posts, likes] = await Promise.all([userReq, postsReq, likesReq]);
+    if (user.length) {
+      const { username, profile, mail } = user[0];
+      return res.status(200).json({
+        message: 'User retrieved',
+        user: {
+          username,
+          profile: JSON.parse(profile),
+          mail,
+          posts: posts.map((post) => {
+            const { postID, title, image } = post;
+            const likesPost = likes.filter(like => like.postID === postID);
+            const likesUserID = likesPost.map((like) => like.userID);
+            return {
+              postID,
+              title,
+              image: JSON.parse(image),
+              likes: likesUserID,
+              publisher: {
+                username,
+                profile: JSON.parse(profile),
+              }
+            }
+          }),
+        }
+      });
+    }
+    return res.status(404).json({
+      message: 'Post not found',
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error,
+    });
+  }
+};
+
 export {
-  signup, signin, update, del,
+  signup, signin, update, del, get
 };

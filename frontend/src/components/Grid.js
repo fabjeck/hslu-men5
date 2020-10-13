@@ -1,15 +1,10 @@
 import React from 'react';
 import './Grid.scss';
 
-import ImagePreview from './ImagePreview';
-
-export default function Grid() {
+export default function Grid(props) {
   return (
     <section className="grid__container">
-        <ImagePreview />
-        <ImagePreview />
-        <ImagePreview />
-        <ImagePreview />
-      </section>
+      {props.children}
+    </section>
   )
 }

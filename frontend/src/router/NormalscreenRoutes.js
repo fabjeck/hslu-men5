@@ -23,7 +23,7 @@ export default function Routes() {
         <Route exact path="/" component={Home} />
         <Route exact path="/images/:image" component={ImageDetail} />
         <Redirect from="/images" to="/" />
-        <Route exact path="/:publisher" component={Publisher} />
+        <Route exact path="/:username" component={Publisher} />
         <Route path="*" component={NoMatch} />
       </Switch>
       {background && <ModalRoute path="/images/:image" component={ImageDetail} />}

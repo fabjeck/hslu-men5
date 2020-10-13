@@ -13,9 +13,6 @@ function validateTitle(title) {
   if (validator.isEmpty(title, { ignore_whitespace: true })) {
     return 'Title is required.';
   }
-  if (!validator.isAlphanumeric(title, 'en-US')) {
-    return 'Title has to be alphanumeric';
-  }
   return null;
 }
 

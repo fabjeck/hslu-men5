@@ -26,4 +26,6 @@ router.patch('/', checkAuth, imageUpload, imageResize(imageSizes, 'profiles'), u
 
 router.delete('/', checkAuth, usersController.del);
 
+router.get('/:username', usersController.get);
+
 export default router;
