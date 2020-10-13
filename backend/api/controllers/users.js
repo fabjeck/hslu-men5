@@ -193,7 +193,7 @@ async function get(req, res) {
       });
     }
     return res.status(404).json({
-      message: 'Post not found',
+      message: 'User not found',
     })
   } catch (error) {
     return res.status(500).json({

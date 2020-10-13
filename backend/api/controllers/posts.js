@@ -9,7 +9,7 @@ async function create(req, res) {
     const connection = await pool;
     const addPostQuery = `INSERT INTO Posts (title, image, userID) VALUES ('${title}', '${stringifiedImages}', '${req.userID}')`;
     await connection.query(addPostQuery);
-    return res.status(200).json({
+    return res.status(201).json({
       message: 'Post created',
     });
   } catch (error) {
@@ -93,7 +93,7 @@ async function toggleLike(req, res) {
       const isLikedQuery = `SELECT * FROM Likes WHERE postID = '${postID}' AND userID = '${req.userID}'`;
       const isAlreadyLiked = await connection.query(isLikedQuery);
       if (isAlreadyLiked.length) {
-        return res.status(400).json({
+        return res.status(409).json({
           error: 'Post is already liked by this user',
         });
       }
