@@ -31,7 +31,7 @@ export default function ImagePreview({ item }) {
         <div className="publisher__wrapper">
           <Link className="publisher__link" to={`/${item.publisher.username}`}>
             <div className="profil-image__wrapper image__frame">
-              <img src={item.publisher.profile?.[50]} alt={item.publisher.username} />
+              {item.publisher.profile && <img src={item.publisher.profile?.[50]} alt={item.publisher.username} />}
             </div>
             <span>{item.publisher.username}</span>
           </Link>
