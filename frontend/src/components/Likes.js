@@ -39,7 +39,7 @@ export default function Likes({ likes, postID }) {
   };
 
   return (
-    <div className={`likes__container ${isLiked ? 'liked' : ''}`}>
+    <div className={`likes__container ${isLiked && user.token ? 'liked' : ''}`}>
       <span onClick={handleClick} className={`icon__wrapper ${user.token ? 'logged' : ''}`}>
         <IoIosThumbsUp />
       </span>
