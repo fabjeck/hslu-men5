@@ -25,7 +25,7 @@ Your app is ready to be deployed.
 
 ### Backend ###
 
-#### `npm start` ####
+#### `npm start` ####
 
 Runs the API server on [http://localhost:8080](http://localhost:8080).
 
