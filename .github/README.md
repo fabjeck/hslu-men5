@@ -6,21 +6,34 @@ First steps with React, RESTful and MySQL...
 
 ### Frontend ###
 
-```bash
-# Start React app (localhost:3000)
-npm start
-```
+#### `npm start` ####
+
+Runs the app in development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will automatically reload if you make changes to the code.<br>
+You will see the build errors and lint warnings in the console.
+
+#### `npm run build` ####
+
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.
+
+Your app is ready to be deployed.
 
 ### Backend ###
 
-```bash
-# Start API-Server (localhost:8080)
-npm start
-```
+#### `npm start` ####
 
-### .ENV-Variables ###
+Runs the API server on [http://localhost:8080](http://localhost:8080).
 
-Create .env file to save your credentials and environment variables.
+The server will automatically restart if you make changes to the code.
+
+### Environment variables ###
+
+Create a .env file to save the required environment variables.
 
 ```shell
 API_PORT=<api-port>
@@ -39,9 +52,17 @@ JWT_REFRESH_EXPIRY=<jwt-refresh-expiry>
 
 ## User Interface ##
 
+![Sign Up](assets/signup.png)
+
+![Profile edit](assets/edit.png)
+
+![Home](assets/posts.png)
+
+![Artist](assets/artist.png)
+
 ## Frontend Architecture ##
 
-### Tech Stack ###
+### Tech Stack ###
 
 [`React`](https://reactjs.org/) - Javascript Library
 
@@ -55,7 +76,7 @@ JWT_REFRESH_EXPIRY=<jwt-refresh-expiry>
 
 ## Backend  Architecture ##
 
-### Tech Stack ###
+### Tech Stack ###
 
 [`Express`](https://expressjs.com/) - Node.js web framework
 
@@ -74,6 +95,7 @@ JWT_REFRESH_EXPIRY=<jwt-refresh-expiry>
 ### Swagger Documentation ###
 
 Look up the API documentation on SwaggerHub:
+
 [Swagger API documentation](https://app.swaggerhub.com/apis/fabjeck/restful-gallery/1.0.0)
 
 ### Entity Relationship Diagram (ERD) ###
@@ -82,6 +104,14 @@ Look up the API documentation on SwaggerHub:
 
 ## Authentification ##
 
+The authentification mechanism was implemented based on the following detailed and comprehensible [JWT handling guide](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/#jwt_security).
+
 ![Flowchart](assets/Flowchart.png)
 
-## Documentation ##
+### Implementation hurdle ###
+
+ The required Cookie header – containing the refresh token – isn't attached to the `/refresh-token` api call without [trickery](https://stackoverflow.com/a/489396), due to the browser considering localhost as an invalid domain. Thereby user sessions are not persisted.
+
+>Per default a HTTP-Cookie is only available from the subdomain, which recieved it, unless specified differently within the domain attribute.
+
+[More infos on HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
