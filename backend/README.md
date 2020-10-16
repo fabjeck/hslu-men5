@@ -1,3 +1,0 @@
-# react-rest-mysql-gallery #
-
-First steps with React, RESTful and MySQL...
