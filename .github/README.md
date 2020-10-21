@@ -2,7 +2,7 @@
 
 HSLU Digital Ideation - HS2020
 
-Mentoring (5. Semester)
+**Mentoring (5. Semester)**
 
 ## Usage ##
 
