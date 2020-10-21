@@ -1,6 +1,8 @@
-# react-rest-mysql-gallery #
+# Image gallery with React, RESTful, MySQL #
 
-First steps with React, RESTful and MySQL...
+HSLU Digital Ideation - HS2020
+
+Mentoring (5. Semester)
 
 ## Usage ##
 
