@@ -117,3 +117,7 @@ The authentification mechanism was implemented based on the following detailed a
 >Per default a HTTP-Cookie is only available from the subdomain, which recieved it, unless specified differently within the domain attribute.
 
 [More infos on HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
+
+## License ##
+
+[MIT](https://choosealicense.com/licenses/mit/)
